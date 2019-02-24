@@ -1,3 +1,5 @@
+var selected = [];
+
 $("body").on("click", ".unthrown", function(event) {
   var id = $(this).attr("id");
   $.ajax(`/api/discs/${id}`, { type: "PUT", data: id }).then(function(data) {
@@ -12,16 +14,53 @@ $("#reset").on("click", function(event) {
 });
 
 $("body").on("click", "#delete", function(event) {
-  $("#delete").text("Done Deleting");
-  $("#delete").attr("id", "done");
-  $(".thrown").after("<button class='delete'>Del</button>");
-  $(".unthrown").after("<button class='delete'>Del</button>");
+  $("#delete")
+    .text("Done Deleting")
+    .attr("id", "done");
+  $(".thrown")
+    .removeClass("btn-outline-success thrown")
+    .addClass("delete-thrown-disc btn-outline-danger");
+  $(".unthrown")
+    .removeClass("btn-success unthrown")
+    .addClass("delete-unthrown-disc btn-danger");
 });
 
 $("body").on("click", "#done", function(event) {
-  $("#done").text("Delete Discs");
-  $("#done").attr("id", "delete");
-  $(".delete").remove();
+  $("#done")
+    .text("Delete Discs")
+    .attr("id", "delete");
+  $(".delete-thrown-disc")
+    .removeClass("delete-thrown-disc btn-outline-danger")
+    .addClass("btn-outline-success thrown");
+  $(".delete-unthrown-disc")
+    .removeClass("delete-unthrown-disc btn-danger")
+    .addClass("btn-success unthrown");
+  if (selected.length !== 0) {
+    for (i = 0; i < selected.length; i++) {
+      $.ajax(`/api/delete/${selected[i].id}`, {
+        type: "DELETE",
+        data: selected[i].id
+      });
+    }
+    location.reload();
+  }
+});
+
+$("body").on("click", ".delete-unthrown-disc, .delete-thrown-disc", function(
+  event
+) {
+  var id = $(this).attr("id");
+  var text = $(this).text();
+
+  for (i = 0; i < selected.length; i++) {
+    if (selected[i].id === id) {
+      $(`#${id}`).text(text);
+      selected.splice(i, 1);
+      return;
+    }
+  }
+  selected.push({ id: id, name: text });
+  $(`#${selected[i].id}`).append(" <i class='fa fa-check'></i>");
 });
 
 $("#create-form").on("submit", function(event) {

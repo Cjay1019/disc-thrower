@@ -16,11 +16,11 @@ var disc = {
       cb(res);
     });
   },
-  // delete: function(id, cb) {
-  //   orm.deleteOne(id, function(res) {
-  //     cb(res);
-  //   });
-  // },
+  delete: function(id, cb) {
+    orm.deleteOne(id, function(res) {
+      cb(res);
+    });
+  },
   reset: function(cb) {
     orm.resetAll(function(res) {
       cb(res);

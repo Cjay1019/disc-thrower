@@ -29,15 +29,15 @@ router.put("/api/discs/:id", function(req, res) {
   });
 });
 
-// router.delete("/api/discs/:id", function(req, res) {
-//   disc.delete(req.params.id, function(result) {
-//     if (result.affectedRows == 0) {
-//       return res.status(404).end();
-//     } else {
-//       res.status(200).end();
-//     }
-//   });
-// });
+router.delete("/api/delete/:id", function(req, res) {
+  disc.delete(req.params.id, function(result) {
+    if (result.affectedRows == 0) {
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
+  });
+});
 
 router.put("/api/reset", function(req, res) {
   disc.reset(function(result) {
