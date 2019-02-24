@@ -16,7 +16,9 @@ $("#reset").on("click", function(event) {
 $("body").on("click", "#delete", function(event) {
   $("#delete")
     .text("Done Deleting")
-    .attr("id", "done");
+    .attr("id", "done")
+    .addClass("btn-danger")
+    .removeClass("btn-default");
   $(".thrown")
     .removeClass("btn-outline-success thrown")
     .addClass("delete-thrown-disc btn-outline-danger");
@@ -28,7 +30,9 @@ $("body").on("click", "#delete", function(event) {
 $("body").on("click", "#done", function(event) {
   $("#done")
     .text("Delete Discs")
-    .attr("id", "delete");
+    .attr("id", "delete")
+    .addClass("btn-default")
+    .removeClass("btn-danger");
   $(".delete-thrown-disc")
     .removeClass("delete-thrown-disc btn-outline-danger")
     .addClass("btn-outline-success thrown");
